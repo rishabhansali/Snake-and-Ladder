@@ -8,23 +8,23 @@ Random selection of six different combinations of snakes as well as six differen
 A player gets a green signal only if he gets 1 or 6 as dice value.
 A player gets a consecutive turn if he gets 6 as dice value
 */
- 
-int ladlower[6]={0,0,0,0,0,0},ladupper[6]={0,0,0,0,0,0},snalow[6]={0,0,0,0,0,0},snaup[6]={0,0,0,0,0,0};
+
+int ladlower[10]={0,0,0,0,0,0,0,0,0,0},ladupper[10]={0,0,0,0,0,0,0,0,0,0},snalow[10]={0,0,0,0,0,0,0,0,0,0},snaup[10]={0,0,0,0,0,0,0,0,0,0};
 void dissal(int pl,int comp)
 {
     if(pl<comp)
                 {
-                    printf("Yipee you got a ladder to %d",comp);
+                    printf("\nYipee you got a ladder to %d\n",comp);
                 }
                 else if(pl>comp)
                 {
-                    printf("oops snake has eaten you to position %d",comp);
+                    printf("\noops snake has eaten you to position %d\n",comp);
                 }
 }
-int checkforsal(int player)
+int checkforsal(int player, int level)
 {
     int i,pos;
-  for(i=0;i<6;i++)
+  for(i=0;i<level;i++)
   {
       if (player==ladlower[i])
       {
@@ -88,7 +88,8 @@ if (ch==1,2){
 
 	if (state==0)
 	{
-		//number of players
+		  char choice;
+		      //number of players
 	      int players, i;
 	      while(1){
 		      printf("\nEnter the number of players: ");
@@ -100,11 +101,31 @@ if (ch==1,2){
 			  	printf("\nMinimum 2 players required. Please try again.\n");
 			  }
 		  }
+		  while(1){
+		      printf("\nChoose Difficulty Level:");
+		      printf("\nPress 1 for EASY");
+		      printf("\nPress 2 for MODERATE");
+		      printf("\nPress 3 for DIFFICULT");
+		      printf("\nGive choice: ");
+			  fflush(stdin);
+			  srand(time(NULL));
+		   	  choice=getchar();
+			  if(choice=='2' || choice=='1' || choice=='3'){
+			  	break;
+			  }
+			  else{
+			  	printf("\nInvalid choice. Please try again.\n");
+			  }
+		  }
 		  int p[players], fp[players];
 		
-		int winner, f=0;
-	   for( i = 0 ; i < 6 ; i++ )
-	
+		int winner, l, f=0;
+		switch (choice){
+			case '1': l=4; break;
+			case '2': l=7; break;
+			case '3': l=10; break;
+		}
+	   for( i = 0 ; i < l; i++ )
 	     {
 	
 	         j=0;
@@ -154,7 +175,7 @@ if (ch==1,2){
 	       }
 	     }
 	     printf("\n\t Ladders\t\t Snakes\n");
-	    for(i=0;i<6;i++)
+	    for(i=0;i<l;i++)
 	    {
 	        printf("%d\t%02d--->%02d",i+1,ladlower[i],ladupper[i]);
 	        printf("\t\t%02d--->%02d\n",snaup[i],snalow[i]);
@@ -174,8 +195,8 @@ if (ch==1,2){
 			}
 			if(f==1){
 				printf("\n--------------------------------\n");
-				printf("Player %d won!!\n", winner);
-				printf("G A M E  O V E R\n");
+				printf("\t\t\t\tPlayer %d won!!\n", winner);
+				printf("\t\t\t\tGAME OVER\t\t\t\t\n");
 				printf("--------------------------------\n");
 //				f=0;
 				break;
@@ -203,7 +224,7 @@ if (ch==1,2){
 			            {
 			                fturn1=1;
 			                p[i]=p[i]+6;
-			                pocket=checkforsal(p[i]);
+			                pocket=checkforsal(p[i], l);
 			                dissal(p[i],pocket);
 			                p[i]=pocket;
 			            }
@@ -211,7 +232,7 @@ if (ch==1,2){
 			            {
 			                fturn1=0;
 			                p[i]=p[i]+di;
-			                pocket=checkforsal(p[i]);
+			                pocket=checkforsal(p[i], l);
 			                dissal(p[i],pocket);
 			                p[i]=pocket;
 			            }
@@ -238,7 +259,7 @@ if (ch==1,2){
 			        }
 			        else if(ch=='q')
 			        {
-			        	printf("\t\t\t\t\nGAME EXITED\n\t\t\t\t");
+			        	printf("\t\t\t\tGAME EXITED\t\t\t\t");
 			            exit(0);
 			        }
 			        else if(ch=='a')
@@ -253,13 +274,13 @@ if (ch==1,2){
 			        }
 			        else
 					{
-						printf("Invalid choice. Try again");
+						printf("\nInvalid choice. Try again");
 						i--;
 					}
 					printf("\n-------------------------------------------");
 				}
 
-				
+			
 		}	
 		  
 	}
